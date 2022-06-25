@@ -22,7 +22,7 @@ public class HomePageTest  {
         //ChromeOptions options = new ChromeOptions();
         //options.setBinary("C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
 
-        Configuration.startMaximized = true;
+        //Configuration.startMaximized = true;
 
     }
 

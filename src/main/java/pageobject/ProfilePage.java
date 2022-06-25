@@ -1,7 +1,6 @@
 package pageobject;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -9,7 +8,7 @@ import org.openqa.selenium.support.How;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
 
-public class PersonalAccountPage extends BasePage {
+public class ProfilePage extends BasePage {
 
     public static final String URL_ACCOUNT = "https://stellarburgers.nomoreparties.site/account/profile";
 

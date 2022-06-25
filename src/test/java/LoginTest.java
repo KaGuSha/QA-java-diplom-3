@@ -23,7 +23,7 @@ public class LoginTest {
 
     @Before
     public void setUp() {
-        Configuration.startMaximized = true;
+        //Configuration.startMaximized = true;
         Configuration.browser = "chrome";
     }
 
@@ -31,7 +31,7 @@ public class LoginTest {
     public void checkLoginInHeaderPersonalAccount() {
         HomePage homePage = open(HomePage.URL, HomePage.class);
 
-        homePage.clickBtnLinkPersonalAccount();
+        homePage.clickBtnLinkToProfile();
         LoginPage loginPage = page(LoginPage.class);
         loginPage.isOpenLoginPage();
         loginPage.setUserDataForLogin(user);
@@ -74,8 +74,8 @@ public class LoginTest {
     @Test
     public void checkLoginForgotPasswordPage() {
         ForgotPasswordPage forgotPasswordPage = open(ForgotPasswordPage.URL_FORGOT, ForgotPasswordPage.class);
-        forgotPasswordPage.clickBntLinkLoginInForgotPage();
 
+        forgotPasswordPage.clickBntLinkLoginInForgotPage();
         LoginPage loginPage = page(LoginPage.class);
         loginPage.isOpenLoginPage();
         loginPage.setUserDataForLogin(user);

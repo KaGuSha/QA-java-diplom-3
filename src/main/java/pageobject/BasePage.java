@@ -4,8 +4,6 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import static com.codeborne.selenide.WebDriverRunner.url;
-
 public class BasePage {
 
     @FindBy(how= How.XPATH,using=".//a/p[text()='Конструктор']")
@@ -25,7 +23,7 @@ public class BasePage {
         logoStellarBurger.click();
     }
 
-    public void clickBtnLinkPersonalAccount() {
+    public void clickBtnLinkToProfile() {
         btnLinkPersonalAccount.click();
     }
 
