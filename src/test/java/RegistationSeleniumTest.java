@@ -23,6 +23,16 @@ public class RegistationSeleniumTest {
     @Test
     public void checkRegistrationSuccess() {
         driver.get(link);
+
+        /*
+        $(byXpath("//a/p[text()='Личный Кабинет']")).click();
+        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
+        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Email']/following-sibling::input[@name='name']")).setValue("22062022test@test.test");
+        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Пароль']/following-sibling::input[@name='Пароль']")).setValue("22062022test");
+        $(byXpath(".//h2[text()='Вход']/following::form/button[text()='Войти']")).click();
+
+        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
+        $(byXpath(".//h1[text()='Соберите бургер']/following::div/button[text()='Оформить заказ']")).shouldBe(Condition.visible);*/
     }
 
     @After

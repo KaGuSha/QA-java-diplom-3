@@ -10,12 +10,18 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class UserClient extends all.RestAssuredClient {
 
-    private final String USER_REGISTRATION = "auth/register";
-    private final String USER_AUTH = "/auth/user";
+    private final String USER_REGISTRATION = "api/auth/register";
+    private final String USER_AUTH = "api/auth/user";
+    private final String USER_LOGIN = "api/auth/login";
 
     @Step("Отправить запрос POST с json в теле для регистрации аккаунта пользователя на /api/auth/register")
     public Response sentPostToCreateUser(User userData) {
         return reqSpec.and().body(userData).when().post(USER_REGISTRATION);
+    }
+
+    @Step("Отправить запрос POST с json в теле для авторизации пользователя  на /api/auth/user")
+    public Response sentPostToLogin(UserCredentials userCredentials) {
+        return reqSpec.and().body(userCredentials).when().post(USER_LOGIN);
     }
 
     @Step("Отправить запрос DELETE с авторизацией по токену для удаления аккаунта пользователя на /api/auth/user")

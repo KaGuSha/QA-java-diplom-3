@@ -52,11 +52,11 @@ public class RegistrationPage extends BasePage {
     }
 
     public void clickBtnRegistration () {
-        btnRegistration.click();
+        btnRegistration.shouldBe(Condition.visible).click();
     }
 
     public void clickBtnLinkLogin () {
-        btnLinkLoginInRegistrationPage.click();
+        btnLinkLoginInRegistrationPage.shouldBe(Condition.visible).click();
     }
 
     public void isOpenRegistrationPage() {

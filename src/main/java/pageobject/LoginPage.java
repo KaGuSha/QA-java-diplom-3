@@ -1,12 +1,14 @@
 package pageobject;
 
+import api.users.User;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverConditions;
+import static com.codeborne.selenide.WebDriverConditions.url;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import static com.codeborne.selenide.Selenide.webdriver;
+
 
 public class LoginPage extends BasePage{
 
@@ -29,15 +31,21 @@ public class LoginPage extends BasePage{
         inputEmailForLogin.setValue(email);
     }
 
+    public void setUserDataForLogin(User user) {
+        setInputEmailForLogin(user.getEmail());
+        setInputPasswordForLogin(user.getPassword());
+    }
+
     public void clickBtnLoginToPersonalAccount() {
-        btnLoginInLogin.click();
+        btnLoginInLogin.shouldBe(Condition.visible).click();
     }
 
     public void isOpenLoginPage() {
-        webdriver().shouldHave(WebDriverConditions.url(URL_LOGIN));
+        webdriver().shouldHave(url(URL_LOGIN));
     }
 
     public void isBtnLoginInLoginVisible() {
         btnLoginInLogin.shouldBe(Condition.visible);
     }
+
 }

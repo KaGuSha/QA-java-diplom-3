@@ -10,7 +10,7 @@ import static com.codeborne.selenide.WebDriverConditions.url;
 
 public class HomePage extends BasePage {
 
-    public static final String URL = "https://stellarburgers.nomoreparties.site";
+    public static final String URL = "https://stellarburgers.nomoreparties.site/";
 
     @FindBy(how = How.XPATH, using = ".//h1[text()='Соберите бургер']/following::div/button[text()='Войти в аккаунт']")
     private SelenideElement btnLoginInHomePage;
@@ -37,7 +37,7 @@ public class HomePage extends BasePage {
     private SelenideElement headerFillingsConstructor;
 
     public void clickBtnLoginInHomePage() {
-        btnLoginInHomePage.click();
+        btnLoginInHomePage.shouldBe(Condition.visible).click();
     }
 
     public void clickTabBanConstructor () {
