@@ -1,128 +1,99 @@
 import api.users.User;
-import org.junit.Test;
+import api.users.UserClient;
+import com.codeborne.selenide.Configuration;
+import io.restassured.response.Response;
+import org.junit.*;
 import pageobject.*;
 
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.*;
 
 public class LoginTest {
+    private static User user;
+    private static UserClient userClient;
+    private static String accessToken;
+
+
+    @BeforeClass
+    public static void createUser() {
+        user = User.getUser1();
+        userClient = new UserClient();
+        Response response = userClient.sentPostToCreateUser(user);
+        accessToken = userClient.compareResponseCode200AndBodySuccessTrueAndReturnToken(response);
+    }
+
+    @Before
+    public void setUp() {
+        Configuration.startMaximized = true;
+        Configuration.browser = "chrome";
+    }
 
     @Test
     public void checkLoginInHeaderPersonalAccount() {
-        open(HomePage.URL);
-        User user = User.getUser1();
+        HomePage homePage = open(HomePage.URL, HomePage.class);
 
-        BasePage header = new BasePage();
-        header.clickBtnLinkPersonalAccount();
-
-        LoginPage loginPage = new LoginPage();
-
+        homePage.clickBtnLinkPersonalAccount();
+        LoginPage loginPage = page(LoginPage.class);
         loginPage.isOpenLoginPage();
-        loginPage.setInputEmailForLogin(user.getEmail());
-        loginPage.setInputPasswordForLogin(user.getPassword());
+        loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
 
-        HomePage homePage = new HomePage();
         homePage.isOpenHomePage();
         homePage.isBtnMakeOrderInHomePageVisible();
 
-        /*
-        $(byXpath("//a/p[text()='Личный Кабинет']")).click();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
-        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Email']/following-sibling::input[@name='name']")).setValue("22062022test@test.test");
-        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Пароль']/following-sibling::input[@name='Пароль']")).setValue("22062022test");
-        $(byXpath(".//h2[text()='Вход']/following::form/button[text()='Войти']")).click();
-
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
-        $(byXpath(".//h1[text()='Соберите бургер']/following::div/button[text()='Оформить заказ']")).shouldBe(Condition.visible);*/
     }
 
     @Test
     public void checkLoginInMainPage() {
-        open(HomePage.URL);
-        User user = User.getUser1();
+        HomePage homePage = open(HomePage.URL, HomePage.class);
 
-        HomePage homePage = new HomePage();
         homePage.clickBtnLoginInHomePage();
-
-        LoginPage loginPage = new LoginPage();
+        LoginPage loginPage = page(LoginPage.class);
         loginPage.isOpenLoginPage();
-
-        loginPage.setInputEmailForLogin(user.getEmail());
-        loginPage.setInputPasswordForLogin(user.getPassword());
+        loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
 
         homePage.isOpenHomePage();
         homePage.isBtnMakeOrderInHomePageVisible();
-
-        /*
-        $(byXpath(".//h1[text()='Соберите бургер']/following::div/button[text()='Войти в аккаунт']")).click();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
-        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Email']/following-sibling::input[@name='name']")).setValue("22062022test@test.test");
-        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Пароль']/following::input[@name='Пароль']")).setValue("22062022test");
-        $(byXpath(".//h2[text()='Вход']/following::form/button[text()='Войти']")).click();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
-        $(byXpath(".//h1[text()='Соберите бургер']/following::div/button[text()='Оформить заказ']")).shouldBe(Condition.visible);*/
-
     }
 
     @Test
     public void checkLoginInRegistrationPage() {
+        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION, RegistrationPage.class);
 
-        User user = User.getUser1();
-        open(RegistrationPage.URL_REGISTRATION);
-        RegistrationPage registrationPage = page(RegistrationPage.class);
         registrationPage.clickBtnLinkLogin();
-
-        LoginPage loginPage = new LoginPage();
+        LoginPage loginPage = page(LoginPage.class);
         loginPage.isOpenLoginPage();
-
-        loginPage.setInputEmailForLogin(user.getEmail());
-        loginPage.setInputPasswordForLogin(user.getPassword());
+        loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
 
-        HomePage homePage = new HomePage();
-
+        HomePage homePage = page(HomePage.class);
         homePage.isOpenHomePage();
         homePage.isBtnMakeOrderInHomePageVisible();
-
-        /*
-        $(byXpath(".//p[text()='Уже зарегистрированы?']/a[text()='Войти']")).click();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
-        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Email']/following-sibling::input[@name='name']")).setValue("22062022test@test.test");
-        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Пароль']/following::input[@name='Пароль']")).setValue("22062022test");
-        $(byXpath(".//h2[text()='Вход']/following::form/button[text()='Войти']")).click();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
-        $(byXpath(".//h1[text()='Соберите бургер']/following::div/button[text()='Оформить заказ']")).shouldBe(Condition.visible);*/
-
     }
 
     @Test
     public void checkLoginForgotPasswordPage() {
-        User user = User.getUser1();
-        open(ForgotPasswordPage.URL_FORGOT);
-
-        ForgotPasswordPage forgotPasswordPage = new ForgotPasswordPage();
+        ForgotPasswordPage forgotPasswordPage = open(ForgotPasswordPage.URL_FORGOT, ForgotPasswordPage.class);
         forgotPasswordPage.clickBntLinkLoginInForgotPage();
 
-        LoginPage loginPage = new LoginPage();
+        LoginPage loginPage = page(LoginPage.class);
         loginPage.isOpenLoginPage();
-
-        loginPage.setInputEmailForLogin(user.getEmail());
-        loginPage.setInputPasswordForLogin(user.getPassword());
+        loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
 
-        HomePage homePage = new HomePage();
-
+        HomePage homePage = page(HomePage.class);
         homePage.isOpenHomePage();
         homePage.isBtnMakeOrderInHomePageVisible();
+    }
 
-        /*$(byXpath(".//p[text()='Вспомнили пароль?']/a[text()='Войти']")).click();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));
-        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Email']/following-sibling::input[@name='name']")).setValue("22062022test@test.test");
-        $(byXpath(".//h2[text()='Вход']/following::div/label[text()='Пароль']/following::input[@name='Пароль']")).setValue("22062022test");
-        $(byXpath(".//h2[text()='Вход']/following::form/button[text()='Войти']")).click();
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/"));
-        $(byXpath(".//h1[text()='Соберите бургер']/following::div/button[text()='Оформить заказ']")).shouldBe(Condition.visible);*/
+    @After
+    public void tearDown() {
+        clearBrowserLocalStorage();
+    }
+
+    @AfterClass
+    public static void tearDown2() {
+        Response response = userClient.sentDeleteToRemoveUser(accessToken);
+        userClient.compareResponseCodeAndBodyAboutRemove(response);
     }
 }

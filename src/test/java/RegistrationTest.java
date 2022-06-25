@@ -1,5 +1,11 @@
+import api.users.UserClient;
+import api.users.UserCredentials;
+import com.codeborne.selenide.AuthenticationType;
+import com.codeborne.selenide.Config;
 import com.codeborne.selenide.Configuration;
 import api.users.User;
+import io.restassured.response.Response;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pageobject.*;
@@ -8,24 +14,21 @@ import pageobject.*;
 import static com.codeborne.selenide.Selenide.*;
 
 
-
 public class RegistrationTest {
+    private User user1;
+    private RegistrationPage registrationPage;
 
     @Before
     public void setupBrowser() {
-
-        Configuration.browser = "chrome";
         Configuration.startMaximized = true;
-
+        Configuration.browser = "chrome";
+        open(RegistrationPage.URL_REGISTRATION);
+        registrationPage = page(RegistrationPage.class);
     }
 
     @Test
     public void checkUserRegistrationSuccess() {
-        User user1 = User.getUser1();
-
-        open(RegistrationPage.URL_REGISTRATION);
-        RegistrationPage registrationPage = page(RegistrationPage.class);
-
+        user1 = User.getUser1();
 
         registrationPage.setUserDataInInputFields(user1);
         registrationPage.clickBtnRegistration();
@@ -33,38 +36,32 @@ public class RegistrationTest {
         LoginPage loginPage = page(LoginPage.class);
         loginPage.isOpenLoginPage();
 
-        /*
-        $(byXpath("//div/label[text()='Имя']/following-sibling::input")).setValue("Gulnara2");
-        $(byXpath(".//div/label[text()='Email']/following-sibling::input")).setValue("22062022test@test.test");
-        $(byXpath(".//div/label[text()='Пароль']/following-sibling::input")).setValue("22062022test");
-        $(byXpath(".//form/button[text()='Зарегистрироваться']")).click();
-        //проверка
-        webdriver().shouldHave(url("https://stellarburgers.nomoreparties.site/login"));*/
+        loginPage.setUserDataForLogin(user1);
+        loginPage.clickBtnLoginToPersonalAccount();
+        HomePage homePage = page(HomePage.class);
+        homePage.isOpenHomePage();
+        homePage.isBtnMakeOrderInHomePageVisible();
     }
 
     @Test
     public void checkUserRegistrationPasswordWarning() {
-
-        User user1 = User.getUserPass5();
+        user1 = User.getUserPass5();
         open(RegistrationPage.URL_REGISTRATION);
-
-        RegistrationPage registrationPage = page(RegistrationPage.class);
 
         registrationPage.setUserDataInInputFields(user1);
         registrationPage.clickBtnRegistration();
 
         registrationPage.isMessageWrongPasswordLengthVisible();
-
-        /*
-        $(byXpath("//div/label[text()='Имя']/following-sibling::input[@name='name']")).setValue("Gulnara2");
-        $(byXpath(".//div/label[text()='Email']/following-sibling::input[@name='name']")).setValue("22062022test@test.test");
-        $(byXpath(".//div/label[text()='Пароль']/following-sibling::input[@name='Пароль'")).setValue("test");
-        $(byXpath(".//form/button[text()='Зарегистрироваться']")).click();
-        $(byCssSelector("p.input__error")).shouldHave(Condition.exactText("Некорректный пароль"));*/
     }
 
-
-
-
-
+    @After
+    public void tearDown() {
+        if (user1.getPassword().length() >= 6) {
+            UserClient userClient = new UserClient();
+            UserCredentials userCredentials = UserCredentials.from(user1);
+            Response response = userClient.sentPostToLogin(userCredentials);
+            String accessToken = userClient.compareResponseCode200AndBodySuccessTrueAndReturnToken(response);
+            userClient.sentDeleteToRemoveUser(accessToken);
+        }
+    }
 }
