@@ -6,7 +6,7 @@ import static io.restassured.RestAssured.given;
 
 public class RestAssuredClient {
 
-    protected final String  URL = "https://stellarburgers.nomoreparties.site/api/";
+    protected final String  URL = "https://stellarburgers.nomoreparties.site/";
 
     protected final RequestSpecification reqSpec = given()
             .baseUri(URL)
