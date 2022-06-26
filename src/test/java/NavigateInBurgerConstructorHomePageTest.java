@@ -1,5 +1,6 @@
 import com.codeborne.selenide.Configuration;
 
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class NavigateInBurgerConstructorHomePageTest {
         homePage = open(HomePage.URL,HomePage.class);
     }
 
+    @DisplayName("Переход к разделу Соусы по клику на таб Соусы")
     @Test
     public void checkMovementToHeaderSouseByClickTabSouse() {
         int before = homePage.getHeaderSouseLocation();
@@ -34,6 +36,7 @@ public class NavigateInBurgerConstructorHomePageTest {
         homePage.isElementPositionChanged(before,actual);
     }
 
+    @DisplayName("Переход к разделу Начинки по клику на таб Начинки")
     @Test
     public void checkMovementToHeaderFillingByClickTabFilling() {
         int before = homePage.getHeaderFillingLocation();
@@ -44,6 +47,7 @@ public class NavigateInBurgerConstructorHomePageTest {
         homePage.isElementPositionChanged(before,actual);
     }
 
+    @DisplayName("Переход к разделу Булки по клику на таб Булки")
     @Test
     public void checkMovementToHeaderBanByClickTabBan() {
         homePage.clickTabFillingsInConstructor();

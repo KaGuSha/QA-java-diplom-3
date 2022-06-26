@@ -2,6 +2,8 @@ import api.users.User;
 import api.users.UserClient;
 
 import com.codeborne.selenide.Configuration;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.*;
 
@@ -45,6 +47,7 @@ public class NavigateFromProfilePageTest {
         homePage.clickBtnLinkToProfile();
     }
 
+    @DisplayName("Переход из Личного кабинета на главную по клику на Конструктор")
     @Test
     public void checkMovementToHomePageFromProfilePageByClickConstructorForAuthUser() {
         ProfilePage profilePage = page(ProfilePage.class);
@@ -54,6 +57,7 @@ public class NavigateFromProfilePageTest {
         homePage.isOpenHomePageForAuthUser();
     }
 
+    @DisplayName("Переход из Личного кабинета на главную по клику на логотип")
     @Test
     public void checkMovementToHomePageFromProfilePageByClickLogoForAuthUser() {
         ProfilePage profilePage = page(ProfilePage.class);
@@ -63,6 +67,7 @@ public class NavigateFromProfilePageTest {
         homePage.isOpenHomePageForAuthUser();
     }
 
+    @DisplayName("Выход из Личного кабинета по кнопке Выход")
     @Test
     public void checkLogoutForAuthUser() {
         ProfilePage profilePage = page(ProfilePage.class);

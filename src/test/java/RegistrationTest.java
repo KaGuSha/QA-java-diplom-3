@@ -2,6 +2,8 @@ import api.users.UserClient;
 import api.users.UserCredentials;
 import com.codeborne.selenide.Configuration;
 import api.users.User;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -22,6 +24,8 @@ public class RegistrationTest {
         Configuration.startMaximized = true;
     }
 
+    @DisplayName("Успешная регистрация")
+    @Description("Для успешной регистрации необходимо заполнить все поля формы")
     @Test
     public void checkUserRegistrationSuccess() {
         user = User.getUser1();
@@ -39,6 +43,8 @@ public class RegistrationTest {
         homePage.isOpenHomePageForAuthUser();
     }
 
+    @DisplayName("Появление ошибки для некорректного пароля")
+    @Description("Минимальная длина пароля — шесть символов")
     @Test
     public void checkUserRegistrationPasswordWarning() {
         user = User.getUserPass5();

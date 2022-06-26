@@ -1,6 +1,8 @@
 import api.users.User;
 import api.users.UserClient;
 import com.codeborne.selenide.Configuration;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.*;
 import pageobject.*;
@@ -28,6 +30,7 @@ public class LoginTest {
         Configuration.startMaximized = true;
     }
 
+    @DisplayName("Вход через кнопку Личный кабинет")
     @Test
     public void checkLoginInHeaderPersonalAccount() {
         HomePage homePage = open(HomePage.URL, HomePage.class);
@@ -41,6 +44,7 @@ public class LoginTest {
         homePage.isOpenHomePageForAuthUser();
     }
 
+    @DisplayName("Вход по кнопке Войти в аккаунт на главной")
     @Test
     public void checkLoginInMainPage() {
         HomePage homePage = open(HomePage.URL, HomePage.class);
@@ -54,6 +58,7 @@ public class LoginTest {
         homePage.isOpenHomePageForAuthUser();
     }
 
+    @DisplayName("Вход через кнопку Войти в форме регистрации")
     @Test
     public void checkLoginInRegistrationPage() {
         RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION, RegistrationPage.class);
@@ -68,6 +73,7 @@ public class LoginTest {
         homePage.isOpenHomePageForAuthUser();
     }
 
+    @DisplayName("Вход через кнопку Войти в форме восстановления пароля")
     @Test
     public void checkLoginForgotPasswordPage() {
         ForgotPasswordPage forgotPasswordPage = open(ForgotPasswordPage.URL_FORGOT, ForgotPasswordPage.class);

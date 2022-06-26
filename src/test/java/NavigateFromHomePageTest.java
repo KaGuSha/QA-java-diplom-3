@@ -1,6 +1,8 @@
 import api.users.User;
 import api.users.UserClient;
 import com.codeborne.selenide.Configuration;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.*;
 import pageobject.HomePage;
@@ -38,6 +40,8 @@ public class NavigateFromHomePageTest {
         loginPage.clickBtnLoginToPersonalAccount();
     }
 
+    @DisplayName("Переход в Личный кабинет для авторизованного пользователя")
+    @Description("По кнопке Личный кабинет для авторизованного пользователя доступна страница Личного кабинета. Для неавторизованного пользователя происходит переход на страницу Авторизации.")
     @Test
     public void checkMovementToProfilePageByClickProfileForAuthUser() {
         HomePage homePage = page(HomePage.class);
