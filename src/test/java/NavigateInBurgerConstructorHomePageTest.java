@@ -11,7 +11,6 @@ import pageobject.HomePage;
 import static com.codeborne.selenide.Selenide.*;
 
 public class NavigateInBurgerConstructorHomePageTest {
-    private HomePage homePage;
 
     @BeforeClass
     public static void setupBrowser() {
@@ -22,14 +21,10 @@ public class NavigateInBurgerConstructorHomePageTest {
         Configuration.startMaximized = true;
     }
 
-    @Before
-    public void setUp() {
-        homePage = open(HomePage.URL,HomePage.class);
-    }
-
     @DisplayName("Переход к разделу Соусы по клику на таб Соусы")
     @Test
     public void checkMovementToHeaderSouseByClickTabSouse() {
+        HomePage homePage = open(HomePage.URL,HomePage.class);
         int before = homePage.getHeaderSouseLocation();
 
         homePage.clickTabSouseInConstructor();
@@ -41,6 +36,7 @@ public class NavigateInBurgerConstructorHomePageTest {
     @DisplayName("Переход к разделу Начинки по клику на таб Начинки")
     @Test
     public void checkMovementToHeaderFillingByClickTabFilling() {
+        HomePage homePage = open(HomePage.URL,HomePage.class);
         int before = homePage.getHeaderFillingLocation();
 
         homePage.clickTabFillingsInConstructor();
@@ -52,6 +48,7 @@ public class NavigateInBurgerConstructorHomePageTest {
     @DisplayName("Переход к разделу Булки по клику на таб Булки")
     @Test
     public void checkMovementToHeaderBanByClickTabBan() {
+        HomePage homePage = open(HomePage.URL,HomePage.class);
         homePage.clickTabFillingsInConstructor();
         int before = homePage.getHeaderBanLocation();
 

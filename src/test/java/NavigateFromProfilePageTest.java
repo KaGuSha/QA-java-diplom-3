@@ -2,7 +2,7 @@ import api.users.User;
 import api.users.UserClient;
 
 import com.codeborne.selenide.Configuration;
-import io.qameta.allure.Description;
+
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.*;

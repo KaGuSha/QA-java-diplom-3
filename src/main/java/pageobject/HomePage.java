@@ -9,7 +9,7 @@ import org.hamcrest.Matchers;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import static com.codeborne.selenide.Condition.not;
+import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
 
@@ -50,18 +50,21 @@ public class HomePage extends BasePage {
     public void clickTabBanInConstructor() {
         tabBanConstructor.click();
         headerBanConstructor.shouldBe(Condition.visible);
+        sleep(500);
     }
 
     @Step("Нажать на таб Соусы в конструкторе Соберите бургер")
     public void clickTabSouseInConstructor() {
         tabSouseConstructor.click();
         headerSouseConstructor.shouldBe(Condition.visible);
+        sleep(500);
     }
 
     @Step("Нажать на таб Начинки в конструкторе Соберите бургер")
     public void clickTabFillingsInConstructor () {
         tabFillingsConstructor.click();
         headerFillingsConstructor.shouldBe(Condition.visible);
+        sleep(500);
     }
 
     @Step("Проверить, что открыта главная с конструктором Соберите бургер")
@@ -92,7 +95,7 @@ public class HomePage extends BasePage {
 
     @Step("Получить позицию на странице по вертикали заголовка Начинки в конструкторе Соберите бургер")
     public Integer getHeaderFillingLocation() {
-        return headerSouseConstructor.getLocation().getY();
+        return headerFillingsConstructor.getLocation().getY();
     }
 
     @Step("Проверить, что позиция на странице по вертикали заголовка изменилась")

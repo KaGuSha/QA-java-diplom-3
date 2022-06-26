@@ -2,7 +2,6 @@ import api.users.UserClient;
 import api.users.UserCredentials;
 import com.codeborne.selenide.Configuration;
 import api.users.User;
-import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
@@ -10,10 +9,7 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.openqa.selenium.WebDriver;
-
 import pageobject.*;
-
 
 import static com.codeborne.selenide.Selenide.*;
 

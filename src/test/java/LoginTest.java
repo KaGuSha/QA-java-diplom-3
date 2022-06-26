@@ -1,7 +1,7 @@
 import api.users.User;
 import api.users.UserClient;
 import com.codeborne.selenide.Configuration;
-import io.qameta.allure.Description;
+
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.*;
@@ -16,7 +16,7 @@ public class LoginTest {
 
     @BeforeClass
     public static void createUser() {
-        user = User.getUser1();
+        user = User.getUser2();
         userClient = new UserClient();
         Response response = userClient.sentPostToCreateUser(user);
         accessToken = userClient.compareResponseCode200AndBodySuccessTrueAndReturnToken(response);

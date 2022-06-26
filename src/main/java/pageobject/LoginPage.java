@@ -14,6 +14,8 @@ import org.openqa.selenium.support.How;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Selenide.sleep;
+
 
 public class LoginPage extends BasePage{
 
@@ -31,8 +33,9 @@ public class LoginPage extends BasePage{
     @Step("Нажать на кнопку Войти для авторизации")
     public void clickBtnLoginToPersonalAccount() {
         //btnLoginInLogin.shouldBe(Condition.visible, Duration.ofSeconds(5)).doubleClick();
-
+        //sleep(500);
         btnLoginInLogin.shouldBe(Condition.visible, Duration.ofSeconds(5)).click();
+
     }
 
     @Step("Проверить, что пароль введен")
