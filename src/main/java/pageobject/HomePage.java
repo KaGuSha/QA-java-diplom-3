@@ -2,9 +2,13 @@ package pageobject;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
 
@@ -40,37 +44,35 @@ public class HomePage extends BasePage {
         btnLoginInHomePage.shouldBe(Condition.visible).click();
     }
 
-    public void clickTabBanConstructor () {
+    public void clickTabBanInConstructor() {
         tabBanConstructor.click();
+        headerBanConstructor.shouldBe(Condition.visible);
     }
 
-    public void clickTabSouseConstructor () {
+    public void clickTabSouseInConstructor() {
         tabSouseConstructor.click();
+        headerSouseConstructor.shouldBe(Condition.visible);
     }
 
-    public void clickTabFillingsConstructor () {
+    public void clickTabFillingsInConstructor () {
         tabFillingsConstructor.click();
         headerFillingsConstructor.shouldBe(Condition.visible);
     }
 
-    public void isHeaderBunConstructorVisible() {
-        headerBanConstructor.shouldBe(Condition.visible);
+    public Integer getHeaderSouseLocation() {
+        return headerSouseConstructor.getLocation().getY();
     }
 
-    public void isHeaderBunConstructorNotVisible() {
-        headerBanConstructor.shouldBe(Condition.not(Condition.selected));
+    public Integer getHeaderBanLocation() {
+        return headerSouseConstructor.getLocation().getY();
     }
 
-    public void isHeaderSouseConstructorVisible() {
-        headerSouseConstructor.shouldBe(Condition.selected);
+    public Integer getHeaderFillingLocation() {
+        return headerSouseConstructor.getLocation().getY();
     }
 
-    public void isHeaderSouseConstructorNotVisible() {
-        headerSouseConstructor.scrollTo();//headerSouseConstructor.shouldBe(Condition.not(Condition.visible));
-    }
-
-    public void isHeaderFillingConstructorVisible() {
-        headerFillingsConstructor.shouldBe(Condition.visible);
+    public void isElementPositionChanged(int before,int actual) {
+       MatcherAssert.assertThat("Позиция элемента заголовка на странице не изменилась после клика",actual,Matchers.not(Matchers.equalTo(before)));
     }
 
     public void isOpenHomePage() {
@@ -81,4 +83,8 @@ public class HomePage extends BasePage {
         btnMakeOrderInHomePage.shouldBe(Condition.visible);
     }
 
+    public void isOpenHomePageForAuthUser() {
+        isOpenHomePage();
+        isBtnMakeOrderInHomePageVisible();
+    }
 }

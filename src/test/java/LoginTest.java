@@ -12,7 +12,6 @@ public class LoginTest {
     private static UserClient userClient;
     private static String accessToken;
 
-
     @BeforeClass
     public static void createUser() {
         user = User.getUser1();
@@ -21,10 +20,12 @@ public class LoginTest {
         accessToken = userClient.compareResponseCode200AndBodySuccessTrueAndReturnToken(response);
     }
 
-    @Before
-    public void setUp() {
-        //Configuration.startMaximized = true;
+    @BeforeClass
+    public static void setupBrowser() {
+        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+        //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
         Configuration.browser = "chrome";
+        Configuration.startMaximized = true;
     }
 
     @Test
@@ -39,7 +40,6 @@ public class LoginTest {
 
         homePage.isOpenHomePage();
         homePage.isBtnMakeOrderInHomePageVisible();
-
     }
 
     @Test
@@ -92,7 +92,7 @@ public class LoginTest {
     }
 
     @AfterClass
-    public static void tearDown2() {
+    public static void removeUser() {
         Response response = userClient.sentDeleteToRemoveUser(accessToken);
         userClient.compareResponseCodeAndBodyAboutRemove(response);
     }

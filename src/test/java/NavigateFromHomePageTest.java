@@ -1,10 +1,8 @@
 import api.users.User;
 import api.users.UserClient;
-
 import com.codeborne.selenide.Configuration;
 import io.restassured.response.Response;
 import org.junit.*;
-
 import pageobject.HomePage;
 import pageobject.LoginPage;
 import pageobject.ProfilePage;
@@ -12,9 +10,7 @@ import pageobject.ProfilePage;
 import static com.codeborne.selenide.Selenide.*;
 
 
-public class NavigateFromProfilePageTest {
-    LoginPage loginPage;
-    HomePage homePage;
+public class NavigateFromHomePageTest {
     private static User user;
     private static UserClient userClient;
     private static String accessToken;
@@ -27,47 +23,32 @@ public class NavigateFromProfilePageTest {
         accessToken = userClient.compareResponseCode200AndBodySuccessTrueAndReturnToken(response);
     }
 
+    @BeforeClass
+    public static void setupBrowser() {
+        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+        //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
+        Configuration.browser = "chrome";
+        Configuration.startMaximized = true;
+    }
+
     @Before
     public void setUp() {
         Configuration.startMaximized = true;
 
-        loginPage = open(LoginPage.URL_LOGIN,LoginPage.class);
+        LoginPage loginPage = open(LoginPage.URL_LOGIN,LoginPage.class);
         loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
+    }
 
+    @Test
+    public void checkMovementToProfilePageByClickProfileForAuthUser() {
         HomePage homePage = page(HomePage.class);
         homePage.clickBtnLinkToProfile();
-    }
-
-    @Test
-    public void checkMovementToHomePageFromProfilePageByClickConstructorForAuthUser() {
 
         ProfilePage profilePage = page(ProfilePage.class);
         profilePage.isOpenPersonalAccountPage();
-
-        profilePage.clickBtnLinkBurgerContractor();
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
-    }
-
-    @Test
-    public void checkMovementToHomePageFromProfilePageByClickLogoForAuthUser() {
-        ProfilePage profilePage = page(ProfilePage.class);
-        profilePage.isOpenPersonalAccountPage();
-
-        profilePage.clickLogoStellarBurger();
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
-    }
-
-    @Test
-    public void checkLogoutForAuthUser() {
-        ProfilePage profilePage = page(ProfilePage.class);
-        profilePage.isOpenPersonalAccountPage();
-
-        profilePage.clickBtnLogoutPersonalAccount();
-        loginPage.isOpenLoginPage();
-        loginPage.isBtnLoginInLoginVisible();
+        profilePage.isEqualsUserNameExpectedName(user.getName());
+        profilePage.isEqualsUserEmailExpectedEmail(user.getEmail());
     }
 
     @After

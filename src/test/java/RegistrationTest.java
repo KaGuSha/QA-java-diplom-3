@@ -5,6 +5,7 @@ import api.users.User;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import pageobject.*;
 
@@ -13,20 +14,20 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class RegistrationTest {
     private User user;
-    private RegistrationPage registrationPage;
 
-    @Before
-    public void setupBrowser() {
-
+    @BeforeClass
+    public static void setupBrowser() {
+        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+        //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
         Configuration.browser = "chrome";
-
-        registrationPage = open(RegistrationPage.URL_REGISTRATION,RegistrationPage.class);
+        Configuration.startMaximized = true;
     }
 
     @Test
     public void checkUserRegistrationSuccess() {
         user = User.getUser1();
 
+        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION,RegistrationPage.class);
         registrationPage.setUserDataInInputFields(user);
         registrationPage.clickBtnRegistration();
 
@@ -44,6 +45,7 @@ public class RegistrationTest {
     public void checkUserRegistrationPasswordWarning() {
         user = User.getUserPass5();
 
+        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION,RegistrationPage.class);
         registrationPage.setUserDataInInputFields(user);
         registrationPage.clickBtnRegistration();
 
@@ -51,7 +53,7 @@ public class RegistrationTest {
     }
 
     @After
-    public void tearDown() {
+    public void removeUser() {
         if (user.getPassword().length() >= 6) {
             UserClient userClient = new UserClient();
             UserCredentials userCredentials = UserCredentials.from(user);
