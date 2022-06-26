@@ -2,13 +2,18 @@ import api.users.UserClient;
 import api.users.UserCredentials;
 import com.codeborne.selenide.Configuration;
 import api.users.User;
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import org.openqa.selenium.WebDriver;
+
 import pageobject.*;
+
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -16,12 +21,27 @@ import static com.codeborne.selenide.Selenide.*;
 public class RegistrationTest {
     private User user;
 
+
     @BeforeClass
     public static void setupBrowser() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
         //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
+        //Configuration.browser = "firefox";
         Configuration.browser = "chrome";
         Configuration.startMaximized = true;
+    }
+
+    @DisplayName("Появление ошибки для некорректного пароля")
+    @Description("Минимальная длина пароля — шесть символов")
+    @Test
+    public void checkUserRegistration1PasswordWarning() {
+        user = User.getUserPass5();
+
+        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION, RegistrationPage.class);
+        registrationPage.setUserDataInInputFields(user);
+        registrationPage.clickBtnRegistration();
+
+        registrationPage.isMessageWrongPasswordLengthVisible();
     }
 
     @DisplayName("Успешная регистрация")
@@ -36,24 +56,18 @@ public class RegistrationTest {
 
         LoginPage loginPage = page(LoginPage.class);
         loginPage.isOpenLoginPage();
-
         loginPage.setUserDataForLogin(user);
+        loginPage.checkPasswordInputValue(user);
         loginPage.clickBtnLoginToPersonalAccount();
+
         HomePage homePage = page(HomePage.class);
         homePage.isOpenHomePageForAuthUser();
     }
 
-    @DisplayName("Появление ошибки для некорректного пароля")
-    @Description("Минимальная длина пароля — шесть символов")
-    @Test
-    public void checkUserRegistrationPasswordWarning() {
-        user = User.getUserPass5();
-
-        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION, RegistrationPage.class);
-        registrationPage.setUserDataInInputFields(user);
-        registrationPage.clickBtnRegistration();
-
-        registrationPage.isMessageWrongPasswordLengthVisible();
+    @After
+    public void tearDown() {
+        clearBrowserLocalStorage();
+        //WebDriverRunner.closeWindow();
     }
 
     @After

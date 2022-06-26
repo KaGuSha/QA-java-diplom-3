@@ -35,7 +35,7 @@ public class RegistrationPage extends BasePage {
 
     @Step("Нажать на кнопку Зарегистрировать")
     public void clickBtnRegistration () {
-        btnRegistration.shouldBe(Condition.visible).click();
+        btnRegistration.shouldBe(Condition.enabled).click();
     }
 
     @Step("Нажать на ссылку Войти для перехода на страницу Авторизации")
@@ -55,17 +55,17 @@ public class RegistrationPage extends BasePage {
 
     @Step("Указать имя в поле Имя")
     public void setInputNameForRegistration (String name) {
-        inputNameForRegistration.setValue(name);
+        inputNameForRegistration.sendKeys(name);
     }
 
     @Step("Указать email в поле email")
     public void setInputEmailForRegistration (String email) {
-        inputEmailForRegistration.setValue(email);
+        inputEmailForRegistration.sendKeys(email);
     }
 
     @Step("Указать пароль в поле пароль")
     public void setInputPasswordForRegistration (String password) {
-        inputPasswordForRegistration.setValue(password);
+        inputPasswordForRegistration.sendKeys(password);
     }
 
     @Step("Заполнить форму для регистрации нового пользователя")

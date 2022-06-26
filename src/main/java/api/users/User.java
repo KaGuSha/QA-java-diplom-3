@@ -28,7 +28,7 @@ public class User {
     }
 
     public static User getUserPass5 () {
-        return new User ("mariatest202206@test.test","Maria", "Мария");
+        return new User ("Annatest202207@test.test","12", "Anna");
     }
 
 

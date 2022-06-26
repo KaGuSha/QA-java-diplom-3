@@ -1,6 +1,7 @@
 import com.codeborne.selenide.Configuration;
 
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,12 +11,13 @@ import pageobject.HomePage;
 import static com.codeborne.selenide.Selenide.*;
 
 public class NavigateInBurgerConstructorHomePageTest {
-    HomePage homePage;
+    private HomePage homePage;
 
     @BeforeClass
     public static void setupBrowser() {
         //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
         //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
+        //Configuration.browser = "firefox";
         Configuration.browser = "chrome";
         Configuration.startMaximized = true;
     }
@@ -57,5 +59,10 @@ public class NavigateInBurgerConstructorHomePageTest {
         int actual = homePage.getHeaderBanLocation();
 
         homePage.isElementPositionChanged(before,actual);
+    }
+
+    @After
+    public void tearDown() {
+        clearBrowserLocalStorage();
     }
 }

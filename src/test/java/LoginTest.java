@@ -24,8 +24,9 @@ public class LoginTest {
 
     @BeforeClass
     public static void setupBrowser() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
         //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
+        //Configuration.browser = "firefox";
         Configuration.browser = "chrome";
         Configuration.startMaximized = true;
     }

@@ -3,13 +3,16 @@ package pageobject;
 import api.users.User;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import static com.codeborne.selenide.WebDriverConditions.url;
 
+
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Step;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import static com.codeborne.selenide.Selenide.webdriver;
+import java.time.Duration;
 
 
 public class LoginPage extends BasePage{
@@ -22,17 +25,27 @@ public class LoginPage extends BasePage{
     @FindBy(how = How.XPATH,using=".//h2[text()='Вход']/following::div/label[text()='Пароль']/following-sibling::input[@name='Пароль']")
     private SelenideElement inputPasswordForLogin;
 
-    @FindBy(how = How.XPATH,using=".//h2[text()='Вход']/following::form/button[text()='Войти']")
+    @FindBy(how = How.XPATH,using=".//form/button[text()='Войти']")
     private SelenideElement btnLoginInLogin;
 
     @Step("Нажать на кнопку Войти для авторизации")
     public void clickBtnLoginToPersonalAccount() {
-        btnLoginInLogin.shouldBe(Condition.visible).click();
+        //btnLoginInLogin.shouldBe(Condition.visible, Duration.ofSeconds(5)).doubleClick();
+
+        btnLoginInLogin.shouldBe(Condition.visible, Duration.ofSeconds(5)).click();
+    }
+
+    @Step("Проверить, что пароль введен")
+    public void checkPasswordInputValue(User user) {
+        MatcherAssert.assertThat(inputPasswordForLogin.getValue(), Matchers.is(user.getPassword()));
     }
 
     @Step("Проверить, что открыта страница авторизации пользователя")
-    public void isOpenLoginPage() {
-        webdriver().shouldHave(url(URL_LOGIN));
+    public Boolean isOpenLoginPage() {
+        if(WebDriverRunner.url()==URL_LOGIN) {
+            return true;
+        }
+        return false;
     }
 
     @Step("Проверить, что кнопка Войти отображается на странице")
@@ -42,12 +55,18 @@ public class LoginPage extends BasePage{
 
     @Step("Указать пароль в поле пароль")
     public void setInputPasswordForLogin(String password) {
-        inputPasswordForLogin.setValue(password);
+        if(inputPasswordForLogin.getValue().length()==0){
+            inputPasswordForLogin.setValue(password);
+        }
     }
 
     @Step("Указать email в поле email")
     public void setInputEmailForLogin(String email) {
-        inputEmailForLogin.setValue(email);
+        if(inputEmailForLogin.getValue().length()!=0){
+            inputEmailForLogin.clear();
+        }
+        inputEmailForLogin.sendKeys(email);
+        //inputEmailForLogin.setValue(email);
     }
 
     @Step("Заполнить форму авторизации пользователя данными пользователя")

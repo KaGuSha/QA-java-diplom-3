@@ -27,24 +27,23 @@ public class NavigateFromHomePageTest {
 
     @BeforeClass
     public static void setupBrowser() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
         //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
+        //Configuration.browser = "firefox";
         Configuration.browser = "chrome";
         Configuration.startMaximized = true;
-    }
-
-    @Before
-    public void setUp() {
-        LoginPage loginPage = open(LoginPage.URL_LOGIN,LoginPage.class);
-        loginPage.setUserDataForLogin(user);
-        loginPage.clickBtnLoginToPersonalAccount();
     }
 
     @DisplayName("Переход в Личный кабинет для авторизованного пользователя")
     @Description("По кнопке Личный кабинет для авторизованного пользователя доступна страница Личного кабинета. Для неавторизованного пользователя происходит переход на страницу Авторизации.")
     @Test
     public void checkMovementToProfilePageByClickProfileForAuthUser() {
+        LoginPage loginPage = open(LoginPage.URL_LOGIN,LoginPage.class);
+        loginPage.setUserDataForLogin(user);
+        loginPage.clickBtnLoginToPersonalAccount();
+
         HomePage homePage = page(HomePage.class);
+        homePage.isOpenHomePageForAuthUser();
         homePage.clickBtnLinkToProfile();
 
         ProfilePage profilePage = page(ProfilePage.class);
