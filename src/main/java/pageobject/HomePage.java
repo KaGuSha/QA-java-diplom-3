@@ -3,6 +3,7 @@ package pageobject;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
+import io.qameta.allure.Step;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.support.FindBy;
@@ -40,51 +41,64 @@ public class HomePage extends BasePage {
     @FindBy(how = How.XPATH, using = "//h2[text()='Начинки']")
     private SelenideElement headerFillingsConstructor;
 
+    @Step("Нажать на кнопку Войти в аккаунт на главной")
     public void clickBtnLoginInHomePage() {
         btnLoginInHomePage.shouldBe(Condition.visible).click();
     }
 
+    @Step("Нажать на таб Булки в конструкторе Соберите бургер")
     public void clickTabBanInConstructor() {
         tabBanConstructor.click();
         headerBanConstructor.shouldBe(Condition.visible);
     }
 
+    @Step("Нажать на таб Соусы в конструкторе Соберите бургер")
     public void clickTabSouseInConstructor() {
         tabSouseConstructor.click();
         headerSouseConstructor.shouldBe(Condition.visible);
     }
 
+    @Step("Нажать на таб Начинки в конструкторе Соберите бургер")
     public void clickTabFillingsInConstructor () {
         tabFillingsConstructor.click();
         headerFillingsConstructor.shouldBe(Condition.visible);
     }
 
-    public Integer getHeaderSouseLocation() {
-        return headerSouseConstructor.getLocation().getY();
-    }
-
-    public Integer getHeaderBanLocation() {
-        return headerSouseConstructor.getLocation().getY();
-    }
-
-    public Integer getHeaderFillingLocation() {
-        return headerSouseConstructor.getLocation().getY();
-    }
-
-    public void isElementPositionChanged(int before,int actual) {
-       MatcherAssert.assertThat("Позиция элемента заголовка на странице не изменилась после клика",actual,Matchers.not(Matchers.equalTo(before)));
-    }
-
+    @Step("Проверить, что открыта главная с конструктором Соберите бургер")
     public void isOpenHomePage() {
         webdriver().shouldHave(url(URL));
     }
 
+    @Step("Проверить, что кнопка Оформить заказ присутствует на странице")
     public void isBtnMakeOrderInHomePageVisible() {
-        btnMakeOrderInHomePage.shouldBe(Condition.visible);
+        btnMakeOrderInHomePage.should(Condition.exist);
     }
 
+    @Step("Проверить, что открыта главная страница с конструктором Соберите бургер и на сранице присутствует кнопка Оформить заказ")
     public void isOpenHomePageForAuthUser() {
         isOpenHomePage();
         isBtnMakeOrderInHomePageVisible();
     }
+
+    @Step("Получить позицию на странице по вертикали заголовка Соусы в конструкторе Соберите бургер")
+    public Integer getHeaderSouseLocation() {
+        return headerSouseConstructor.getLocation().getY();
+    }
+
+    @Step("Получить позицию на странице по вертикали заголовка Булки в конструкторе Соберите бургер")
+    public Integer getHeaderBanLocation() {
+        return headerSouseConstructor.getLocation().getY();
+    }
+
+    @Step("Получить позицию на странице по вертикали заголовка Начинки в конструкторе Соберите бургер")
+    public Integer getHeaderFillingLocation() {
+        return headerSouseConstructor.getLocation().getY();
+    }
+
+    @Step("Проверить, что позиция на странице по вертикали заголовка изменилась")
+    public void isElementPositionChanged(int before,int actual) {
+       MatcherAssert.assertThat("Позиция элемента заголовка на странице не изменилась после клика",actual,Matchers.not(Matchers.equalTo(before)));
+    }
+
+
 }

@@ -27,11 +27,17 @@ public class NavigateFromProfilePageTest {
         accessToken = userClient.compareResponseCode200AndBodySuccessTrueAndReturnToken(response);
     }
 
+    @BeforeClass
+    public static void setupBrowser() {
+        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+        //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
+        Configuration.browser = "chrome";
+        Configuration.startMaximized = true;
+    }
+
     @Before
     public void setUp() {
-        Configuration.startMaximized = true;
-
-        loginPage = open(LoginPage.URL_LOGIN,LoginPage.class);
+        loginPage = open(LoginPage.URL_LOGIN, LoginPage.class);
         loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
 
@@ -41,13 +47,11 @@ public class NavigateFromProfilePageTest {
 
     @Test
     public void checkMovementToHomePageFromProfilePageByClickConstructorForAuthUser() {
-
         ProfilePage profilePage = page(ProfilePage.class);
         profilePage.isOpenPersonalAccountPage();
 
         profilePage.clickBtnLinkBurgerContractor();
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
+        homePage.isOpenHomePageForAuthUser();
     }
 
     @Test
@@ -56,8 +60,7 @@ public class NavigateFromProfilePageTest {
         profilePage.isOpenPersonalAccountPage();
 
         profilePage.clickLogoStellarBurger();
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
+        homePage.isOpenHomePageForAuthUser();
     }
 
     @Test

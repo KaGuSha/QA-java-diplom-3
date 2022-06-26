@@ -4,6 +4,7 @@ import api.users.User;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverConditions;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
@@ -32,39 +33,45 @@ public class RegistrationPage extends BasePage {
     @FindBy(how = How.XPATH, using = ".//p[text()='Уже зарегистрированы?']/a[text()='Войти']")
     private SelenideElement btnLinkLoginInRegistrationPage;
 
+    @Step("Нажать на кнопку Зарегистрировать")
+    public void clickBtnRegistration () {
+        btnRegistration.shouldBe(Condition.visible).click();
+    }
 
+    @Step("Нажать на ссылку Войти для перехода на страницу Авторизации")
+    public void clickBtnLinkLogin () {
+        btnLinkLoginInRegistrationPage.shouldBe(Condition.visible).click();
+    }
+
+    @Step("Проверить, что открыта страница регистрации пользователя")
+    public void isOpenRegistrationPage() {
+        webdriver().shouldHave(WebDriverConditions.url("https://stellarburgers.nomoreparties.site/register"));
+    }
+
+    @Step("Проверить, что отображается сообщение Некорректный пароль")
+    public void isMessageWrongPasswordLengthVisible() {
+        msgWrongPasswordLength.shouldHave(Condition.exactText("Некорректный пароль"));
+    }
+
+    @Step("Указать имя в поле Имя")
     public void setInputNameForRegistration (String name) {
         inputNameForRegistration.setValue(name);
     }
 
+    @Step("Указать email в поле email")
     public void setInputEmailForRegistration (String email) {
         inputEmailForRegistration.setValue(email);
     }
 
+    @Step("Указать пароль в поле пароль")
     public void setInputPasswordForRegistration (String password) {
         inputPasswordForRegistration.setValue(password);
     }
 
+    @Step("Заполнить форму для регистрации нового пользователя")
     public void setUserDataInInputFields(User user){
         setInputNameForRegistration(user.getName());
         setInputEmailForRegistration(user.getEmail());
         setInputPasswordForRegistration(user.getPassword());
     }
-
-    public void clickBtnRegistration () {
-        btnRegistration.shouldBe(Condition.visible).click();
-    }
-
-    public void clickBtnLinkLogin () {
-        btnLinkLoginInRegistrationPage.shouldBe(Condition.visible).click();
-    }
-
-    public void isOpenRegistrationPage() {
-        webdriver().shouldHave(WebDriverConditions.url("https://stellarburgers.nomoreparties.site/register"));
-    }
-
-    public void isMessageWrongPasswordLengthVisible() {
-        msgWrongPasswordLength.shouldHave(Condition.exactText("Некорректный пароль"));
-    }
-
 }

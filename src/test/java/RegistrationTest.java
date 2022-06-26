@@ -4,7 +4,6 @@ import com.codeborne.selenide.Configuration;
 import api.users.User;
 import io.restassured.response.Response;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import pageobject.*;
@@ -27,7 +26,7 @@ public class RegistrationTest {
     public void checkUserRegistrationSuccess() {
         user = User.getUser1();
 
-        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION,RegistrationPage.class);
+        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION, RegistrationPage.class);
         registrationPage.setUserDataInInputFields(user);
         registrationPage.clickBtnRegistration();
 
@@ -37,15 +36,14 @@ public class RegistrationTest {
         loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
         HomePage homePage = page(HomePage.class);
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
+        homePage.isOpenHomePageForAuthUser();
     }
 
     @Test
     public void checkUserRegistrationPasswordWarning() {
         user = User.getUserPass5();
 
-        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION,RegistrationPage.class);
+        RegistrationPage registrationPage = open(RegistrationPage.URL_REGISTRATION, RegistrationPage.class);
         registrationPage.setUserDataInInputFields(user);
         registrationPage.clickBtnRegistration();
 

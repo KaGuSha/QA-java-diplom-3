@@ -33,8 +33,6 @@ public class NavigateFromHomePageTest {
 
     @Before
     public void setUp() {
-        Configuration.startMaximized = true;
-
         LoginPage loginPage = open(LoginPage.URL_LOGIN,LoginPage.class);
         loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();

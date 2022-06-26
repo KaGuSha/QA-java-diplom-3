@@ -38,8 +38,7 @@ public class LoginTest {
         loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
 
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
+        homePage.isOpenHomePageForAuthUser();
     }
 
     @Test
@@ -52,8 +51,7 @@ public class LoginTest {
         loginPage.setUserDataForLogin(user);
         loginPage.clickBtnLoginToPersonalAccount();
 
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
+        homePage.isOpenHomePageForAuthUser();
     }
 
     @Test
@@ -67,8 +65,7 @@ public class LoginTest {
         loginPage.clickBtnLoginToPersonalAccount();
 
         HomePage homePage = page(HomePage.class);
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
+        homePage.isOpenHomePageForAuthUser();
     }
 
     @Test
@@ -82,8 +79,7 @@ public class LoginTest {
         loginPage.clickBtnLoginToPersonalAccount();
 
         HomePage homePage = page(HomePage.class);
-        homePage.isOpenHomePage();
-        homePage.isBtnMakeOrderInHomePageVisible();
+        homePage.isOpenHomePageForAuthUser();
     }
 
     @After
