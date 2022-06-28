@@ -2,13 +2,18 @@ import api.users.UserClient;
 import api.users.UserCredentials;
 import com.codeborne.selenide.Configuration;
 import api.users.User;
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pageobject.*;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -17,14 +22,20 @@ import static com.codeborne.selenide.Selenide.*;
 public class RegistrationTest {
     private User user;
 
+    private static WebDriver driver;
 
     @BeforeClass
     public static void setupBrowser() {
+        //Configuration.browser = "firefox";
         //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
         //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
-        //Configuration.browser = "firefox";
-        Configuration.browser = "chrome";
-        Configuration.startMaximized = true;
+
+        ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--incognito");
+        options.addArguments("--disable-background-mode");
+        options.addArguments("--profile-directory=Test profile");
+        driver =  new ChromeDriver(options);
+        WebDriverRunner.setWebDriver(driver);
     }
 
     @DisplayName("Появление ошибки для некорректного пароля")
@@ -62,8 +73,7 @@ public class RegistrationTest {
 
     @After
     public void tearDown() {
-        clearBrowserLocalStorage();
-        //WebDriverRunner.closeWindow();
+       // clearBrowserLocalStorage();
     }
 
     @After
@@ -75,5 +85,10 @@ public class RegistrationTest {
             String accessToken = userClient.compareResponseCode200AndBodySuccessTrueAndReturnToken(response);
             userClient.sentDeleteToRemoveUser(accessToken);
         }
+    }
+
+    @AfterClass
+    public static void tearDownBrowser (){
+        WebDriverRunner.closeWebDriver();
     }
 }

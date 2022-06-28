@@ -1,24 +1,31 @@
 import com.codeborne.selenide.Configuration;
 
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pageobject.HomePage;
 
 import static com.codeborne.selenide.Selenide.*;
 
 public class NavigateInBurgerConstructorHomePageTest {
+    private static WebDriver driver;
 
     @BeforeClass
     public static void setupBrowser() {
-        //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
-        //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
         //Configuration.browser = "firefox";
-        Configuration.browser = "chrome";
-        Configuration.startMaximized = true;
+        //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+
+        ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--incognito");
+        options.addArguments("--disable-background-mode");
+        options.addArguments("--profile-directory=Test profile");
+        options.addArguments("--start-maximized");
+        driver =  new ChromeDriver(options);
+        WebDriverRunner.setWebDriver(driver);
     }
 
     @DisplayName("Переход к разделу Соусы по клику на таб Соусы")
@@ -61,5 +68,10 @@ public class NavigateInBurgerConstructorHomePageTest {
     @After
     public void tearDown() {
         clearBrowserLocalStorage();
+    }
+
+    @AfterClass
+    public static void tearDownBrowser (){
+        WebDriverRunner.closeWebDriver();
     }
 }

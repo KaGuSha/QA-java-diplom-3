@@ -32,10 +32,8 @@ public class LoginPage extends BasePage{
 
     @Step("Нажать на кнопку Войти для авторизации")
     public void clickBtnLoginToPersonalAccount() {
-        //btnLoginInLogin.shouldBe(Condition.visible, Duration.ofSeconds(5)).doubleClick();
         //sleep(500);
         btnLoginInLogin.shouldBe(Condition.visible, Duration.ofSeconds(5)).click();
-
     }
 
     @Step("Проверить, что пароль введен")
@@ -65,11 +63,7 @@ public class LoginPage extends BasePage{
 
     @Step("Указать email в поле email")
     public void setInputEmailForLogin(String email) {
-        if(inputEmailForLogin.getValue().length()!=0){
-            inputEmailForLogin.clear();
-        }
-        inputEmailForLogin.sendKeys(email);
-        //inputEmailForLogin.setValue(email);
+        inputEmailForLogin.setValue(email);
     }
 
     @Step("Заполнить форму авторизации пользователя данными пользователя")

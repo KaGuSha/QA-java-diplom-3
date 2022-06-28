@@ -1,10 +1,15 @@
 import api.users.User;
 import api.users.UserClient;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pageobject.HomePage;
 import pageobject.LoginPage;
 import pageobject.ProfilePage;
@@ -16,6 +21,7 @@ public class NavigateFromHomePageTest {
     private static User user;
     private static UserClient userClient;
     private static String accessToken;
+    private static WebDriver driver;
 
     @BeforeClass
     public static void createUser() {
@@ -27,11 +33,16 @@ public class NavigateFromHomePageTest {
 
     @BeforeClass
     public static void setupBrowser() {
-        //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
-        //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
         //Configuration.browser = "firefox";
-        Configuration.browser = "chrome";
-        Configuration.startMaximized = true;
+        //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
+
+        ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--incognito");
+        options.addArguments("--disable-background-mode");
+        options.addArguments("--profile-directory=Test profile");
+        options.addArguments("--start-maximized");
+        driver =  new ChromeDriver(options);
+        WebDriverRunner.setWebDriver(driver);
     }
 
     @DisplayName("Переход в Личный кабинет для авторизованного пользователя")
@@ -55,6 +66,11 @@ public class NavigateFromHomePageTest {
     @After
     public void tearDown() {
         clearBrowserLocalStorage();
+    }
+
+    @AfterClass
+    public static void tearDownBrowser (){
+        WebDriverRunner.closeWebDriver();
     }
 
     @AfterClass

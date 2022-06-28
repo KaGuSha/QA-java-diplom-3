@@ -2,9 +2,13 @@ import api.users.User;
 import api.users.UserClient;
 import com.codeborne.selenide.Configuration;
 
+import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pageobject.*;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -13,6 +17,7 @@ public class LoginTest {
     private static User user;
     private static UserClient userClient;
     private static String accessToken;
+    private static WebDriver driver;
 
     @BeforeClass
     public static void createUser() {
@@ -24,11 +29,15 @@ public class LoginTest {
 
     @BeforeClass
     public static void setupBrowser() {
+        //Configuration.browser="fierefox";
         //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\yandexdriver.exe");
-        //Configuration.browserBinary = "C:\\Users\\Administrator\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
-        //Configuration.browser = "firefox";
-        Configuration.browser = "chrome";
-        Configuration.startMaximized = true;
+
+        ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--incognito");
+        options.addArguments("--disable-background-mode");
+        options.addArguments("--profile-directory=Test profile");
+        driver =  new ChromeDriver(options);
+        WebDriverRunner.setWebDriver(driver);
     }
 
     @DisplayName("Вход через кнопку Личный кабинет")
@@ -92,6 +101,11 @@ public class LoginTest {
     @After
     public void tearDown() {
         clearBrowserLocalStorage();
+    }
+
+    @AfterClass
+    public static void tearDownBrowser (){
+        WebDriverRunner.closeWebDriver();
     }
 
     @AfterClass
